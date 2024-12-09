@@ -660,12 +660,12 @@ for(i in 1:rep){
   mse.train.rf[i] = MAE(rf.predict.train, ames_train$Sale_Price)
   mse.test.rf[i] = MAE(rf.predict.test, ames_test$Sale_Price)
 
-  # #bagging
-  # bag <- randomForest(Sale_Price~., data=ames_train, mtry=57)
-  # bag.predict.train = predict(bag)
-  # bag.predict.test =predict(bag, newdata = ames_test[,!names(ames_test)%in%c("Sale_Price")])
-  # mse.train.bag[i] = MAE(bag.predict.train, ames_train$Sale_Price)
-  # mse.test.bag[i] = MAE(bag.predict.test, ames_test$Sale_Price)
+  #bagging
+  bag <- randomForest(Sale_Price~., data=ames_train, mtry=57)
+  bag.predict.train = predict(bag)
+  bag.predict.test =predict(bag, newdata = ames_test[,!names(ames_test)%in%c("Sale_Price")])
+  mse.train.bag[i] = MAE(bag.predict.train, ames_train$Sale_Price)
+  mse.test.bag[i] = MAE(bag.predict.test, ames_test$Sale_Price)
   
 }
 
@@ -682,7 +682,8 @@ mse.test.combined <- cbind(mse.test.combined, index)
 mse.test.combined <- as.data.frame(mse.test.combined)
 mse.test.combined$mse.test.combined <- as.numeric(mse.test.combined$mse.test.combined) 
 
-ggplot(data=mse.test.combined, aes(x=index, y=mse.test.combined)) + geom_boxplot()
+ml_test1 <- ggplot(data=mse.test.combined, aes(x=index, y=mse.test.combined)) + 
+  geom_boxplot() + xlab("Testing MSE") + theme(axis.title.y=element_blank())
 
 ### Boxplot for mse training
 mse.train.combined <- c(mse.train.model3, mse.train.lasso, mse.train.ridge, 
@@ -697,9 +698,12 @@ mse.train.combined <- cbind(mse.train.combined, index)
 mse.train.combined <- as.data.frame(mse.train.combined)
 mse.train.combined$mse.train.combined <- as.numeric(mse.train.combined$mse.train.combined) 
 
-ggplot(data=mse.train.combined, aes(x=index, y=mse.train.combined)) + geom_boxplot()    
+ml_train1 <- ggplot(data=mse.train.combined, aes(x=index, y=mse.train.combined)) + 
+  geom_boxplot() + xlab("Training MSE") + theme(axis.title.y = element_blank())      
 
+ml_train1 + ml_test1 + plot_layout(ncol = 1)
 
+ggsave(filename = "ML_Models_Training_Testing_Performance.png", width=10, height=7, dpi=300)
 ############################
 ### Model Interpretation ###
 ############################

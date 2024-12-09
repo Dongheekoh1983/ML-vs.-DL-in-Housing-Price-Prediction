@@ -4,7 +4,7 @@ output:
   html_document:
     theme: journal
     df_print: paged
-    code_folding: show
+    code_folding: hide
   pdf_document: default
 ---
 
@@ -60,7 +60,6 @@ Introduction paragraph will be included which will briefly introduce what this p
   <li><a href="#preprocess" style = "color:#7BB6B3">Data Pre-processing</a></li>
   <li><a href="#eda" style = "color: #7BB6B3">Exploratory Data Analysis</a></li>
   <li><a href="#ml" style = "color: #7BB6B3">Performance Comparison of Machine Learning(ML) Models for Housing Price Prediction</a></li>
-  <li><a href="#interpretation" style = "color: #7BB6B3">Interpreting Machine Learning Models</a></li>
   <li><a href="#dnn" style = "color: #7BB6B3">Deep Neural Network(DNN) for Housing Price Prediction</a></li>
   <li><a href="#ml_dl" style = "color: #7BB6B3"> Performance Comparison between Machine Learning and Deep Neural Network</a></li>
   <li><a href="#boston_ml" style = "color: #7BB6B3">Implementing the Same ML Methods on Boston Housing Dataset</a></li>
@@ -739,11 +738,8 @@ ggplot(data=mse.train.combined, aes(x=index, y=mse.train.combined)) + geom_boxpl
 
 ```
 
-## <span><a id="interpretation" style="color: #7BB6B3; text-transform: uppercase">Interpreting Machine Learning Models</a></span>
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">Explanation about Interpreting Machine Learning Models </p> 
-```{r,echo=TRUE, eval=FALSE ,fig.align='center'}
-
-
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/ML_Models_Training_Testing_Performance.png")
 ```
 
 ## <span><a id="dnn" style="color: #7BB6B3; text-transform: uppercase">Deep Neural Network(DNN) for Housing Price Prediction</a></span>
@@ -946,6 +942,10 @@ ames_dn_test_results <- c(15005.39, 14925.67, 14870.62,
                           14945.20, 15219.53, 15198.08)
 ```
 
+```{r, echo=FALSE, out.width="50%", fig.align='center'}
+knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/DL_average_mae_history.png")
+```
+
 ## <span><a id="ml_dl" style="color: #7BB6B3; text-transform: uppercase">Performance Comparison between Machine Learning and Deep Neural Network</a></span>
 <p style = "color:#082C6F; font-size: 20px;text-indent: 25px">Explanation about Performance Comparison between Machine Learning and Deep Neural Network </p> 
 ```{r,echo=TRUE, eval=FALSE ,fig.align='center'}
@@ -970,6 +970,10 @@ mse.test.combined <- as.data.frame(mse.test.combined)
 mse.test.combined$mse.test.combined <- as.numeric(mse.test.combined$mse.test.combined) 
 
 ggplot(data=mse.test.combined, aes(x=index, y=mse.test.combined)) + geom_boxplot()
+```
+
+```{r, echo=FALSE, out.width="70%", fig.align='center'}
+knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/ML_DL_Ensemble_Performance_Comparison.png")
 ```
 
 ## <span><a id="boston_ml" style="color: #7BB6B3; text-transform: uppercase">Implementing the Same ML Methods on Boston Housing Dataset</a></span>
@@ -1049,21 +1053,6 @@ for(i in 1:rep){
   
 }
 
-mse.train.model1
-mse.train.model2
-mse.train.model3
-mse.train.lasso
-mse.train.ridge
-mse.train.enet
-
-
-mse.test.model1
-mse.test.model2
-mse.test.model3
-mse.test.lasso
-mse.test.ridge
-mse.test.enet
-
 ### Boxplot for mse test
 mse.test.combined <- c(mse.test.model1, mse.test.model2, mse.test.model3, mse.test.lasso, mse.test.ridge, mse.test.enet)
 index <- rep(c("test.model1", "test.model2", "test.model3", "test.lasso", "test.ridge", "test.enet"), each=20)
@@ -1082,6 +1071,10 @@ mse.train.combined$mse.train.combined <- as.numeric(mse.train.combined$mse.train
 
 ggplot(data=mse.train.combined, aes(x=index, y=mse.train.combined)) + geom_boxplot()
 
+```
+
+```{r, echo=FALSE, out.width="85%", fig.align='center'}
+knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/Boston_ML_Performance_Comparison.png")
 ```
 
 ## <span><a id="boston_dnn" style="color: #7BB6B3; text-transform: uppercase">Implementing the Same DNN Method on Boston Housing Dataset</a></span>
@@ -1165,9 +1158,16 @@ average_mae_history <- rowMeans(all_mae_histories) #calculating average per epoc
 plot(average_mae_history, xlab="epoch",  type = 'l')
 
 truncated_mae_history <- average_mae_history[-(1:20)]
+
 plot(average_mae_history, xlab="epoch",  type = 'l',
      ylim = range(truncated_mae_history))
+```
 
+```{r, echo=FALSE, out.width="50%", fig.align='center'}
+knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/Boston_DL_average_mae_history.png")
+```
+
+```{r,echo=TRUE, eval=FALSE ,fig.align='center'}
 min = which.min(average_mae_history)
 #training the final model
 model <- build_model() 
@@ -1209,6 +1209,9 @@ mse.test.combined$mse.test.combined <- as.numeric(mse.test.combined$mse.test.com
 ggplot(data=mse.test.combined, aes(x=index, y=mse.test.combined)) + geom_boxplot()
 ```
 
+```{r, echo=FALSE, out.width="70%", fig.align='center'}
+knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/Boston_ML_DL_Performance_Comparison.png")
+```
 
 ## <span><a id="summary" style="color: #7BB6B3; text-transform: uppercase">Project Summary and Discussion</a></span>
 <p style = "color:#082C6F; font-size: 20px; text-indent: 25px">Project Summary and Discussion</p>

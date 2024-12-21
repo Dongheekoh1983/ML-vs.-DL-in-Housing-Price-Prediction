@@ -468,7 +468,7 @@ background + geom_point(data=ames,mapping = aes(x=Longitude, y=Latitude, colour 
 ```
 
 ```{r, echo=FALSE, out.width="70%", fig.align='center'}
-knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/ames_neighborhoods.png")
+knitr::include_graphics("./image/ames_neighborhoods.png")
 ```
 
 
@@ -496,7 +496,7 @@ hist_saleprice + map_saleprice + plot_layout(ncol = 2)
 ```
 
 ```{r, echo=FALSE, out.width="75%", fig.align='center'}
-knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/ames_saleprice.png")
+knitr::include_graphics("./image/ames_saleprice.png")
 ```
 
 ### <span><a id="#" style="color: #7BB6B3;">2. Lot Size vs. Sale_price </a></span>
@@ -514,7 +514,7 @@ hist_lot + lot_price_scatter + plot_layout(ncol = 2)
 ```
 
 ```{r, echo=FALSE, out.width="75%", fig.align='center'}
-knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/ames_price_lotsize_scatter.png")
+knitr::include_graphics("./image/ames_price_lotsize_scatter.png")
 ```
 
 ### <span><a id="#" style="color: #7BB6B3;">3. Gr_Liv_Area vs. Sale_price </a></span>
@@ -547,7 +547,7 @@ Gr_Liv_SalePrice_scatter + map_Gr_Liv_Area + plot_layout(ncol = 2)
 ```
 
 ```{r, echo=FALSE, out.width="75%", fig.align='center'}
-knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/ames_price_liv_area_figure.png")
+knitr::include_graphics("./image/ames_price_liv_area_figure.png")
 ```
 
 ### <span><a id="#" style="color: #7BB6B3;">4. Year_Built vs. Sale_price </a></span>
@@ -574,7 +574,7 @@ map_year_built <-
 ```
 
 ```{r, echo=FALSE, out.width="100%", fig.align='center'}
-knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/ames_price_yearbuilt_eda.png")
+knitr::include_graphics("./image/ames_price_yearbuilt_eda.png")
 ```
 
 ### <span><a id="#" style="color: #7BB6B3;">5. Overall_Quality vs. Sale_price </a></span>
@@ -592,7 +592,7 @@ boxplot_condition_price + map_condition + plot_layout(ncol=2)
 
 
 ```{r, echo=FALSE, out.width="100%", fig.align='center'}
-knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/ames_price_condition_figure.png")
+knitr::include_graphics("./image/ames_price_condition_figure.png")
 ```
 
 ### <span><a id="#" style="color: #7BB6B3;">6. External Condition vs. Sale_price </a></span>
@@ -613,7 +613,7 @@ boxplot_external_qual_price + map_external_qual + plot_layout(ncol=2)
 
 
 ```{r, echo=FALSE, out.width="100%", fig.align='center'}
-knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/ames_price_ext_quality_figure.png")
+knitr::include_graphics("./image/ames_price_ext_quality_figure.png")
 ```
 
 ## <span><a id="ml" style="color: #7BB6B3; text-transform: uppercase">Performance Comparison of Machine Learning(ML) Models for Housing Price Prediction</a></span>
@@ -739,7 +739,7 @@ ggplot(data=mse.train.combined, aes(x=index, y=mse.train.combined)) + geom_boxpl
 ```
 
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
-knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/ML_Models_Training_Testing_Performance.png")
+knitr::include_graphics("./image/ML_Models_Training_Testing_Performance.png")
 ```
 
 ## <span><a id="dnn" style="color: #7BB6B3; text-transform: uppercase">Deep Neural Network(DNN) for Housing Price Prediction</a></span>
@@ -943,7 +943,7 @@ ames_dn_test_results <- c(15005.39, 14925.67, 14870.62,
 ```
 
 ```{r, echo=FALSE, out.width="50%", fig.align='center'}
-knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/DL_average_mae_history.png")
+knitr::include_graphics("./image/DL_average_mae_history.png")
 ```
 
 ## <span><a id="ml_dl" style="color: #7BB6B3; text-transform: uppercase">Performance Comparison between Machine Learning and Deep Neural Network</a></span>
@@ -973,7 +973,7 @@ ggplot(data=mse.test.combined, aes(x=index, y=mse.test.combined)) + geom_boxplot
 ```
 
 ```{r, echo=FALSE, out.width="70%", fig.align='center'}
-knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/ML_DL_Ensemble_Performance_Comparison.png")
+knitr::include_graphics("./image/ML_DL_Ensemble_Performance_Comparison.png")
 ```
 
 ## <span><a id="boston_ml" style="color: #7BB6B3; text-transform: uppercase">Implementing the Same ML Methods on Boston Housing Dataset</a></span>
@@ -1074,7 +1074,7 @@ ggplot(data=mse.train.combined, aes(x=index, y=mse.train.combined)) + geom_boxpl
 ```
 
 ```{r, echo=FALSE, out.width="85%", fig.align='center'}
-knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/Boston_ML_Performance_Comparison.png")
+knitr::include_graphics("./image/Boston_ML_Performance_Comparison.png")
 ```
 
 ## <span><a id="boston_dnn" style="color: #7BB6B3; text-transform: uppercase">Implementing the Same DNN Method on Boston Housing Dataset</a></span>
@@ -1164,7 +1164,7 @@ plot(average_mae_history, xlab="epoch",  type = 'l',
 ```
 
 ```{r, echo=FALSE, out.width="50%", fig.align='center'}
-knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/Boston_DL_average_mae_history.png")
+knitr::include_graphics("./image/Boston_DL_average_mae_history.png")
 ```
 
 ```{r,echo=TRUE, eval=FALSE ,fig.align='center'}
@@ -1210,7 +1210,7 @@ ggplot(data=mse.test.combined, aes(x=index, y=mse.test.combined)) + geom_boxplot
 ```
 
 ```{r, echo=FALSE, out.width="70%", fig.align='center'}
-knitr::include_graphics("C:/Users/NET02/Desktop/tasks/2024/Artificial_Intteligence/coding/R/DNN_project/image/Boston_ML_DL_Performance_Comparison.png")
+knitr::include_graphics("./image/Boston_ML_DL_Performance_Comparison.png")
 ```
 
 ## <span><a id="summary" style="color: #7BB6B3; text-transform: uppercase">Project Summary and Discussion</a></span>

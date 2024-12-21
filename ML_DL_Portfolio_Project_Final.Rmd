@@ -48,7 +48,13 @@ knitr::opts_chunk$set(echo = TRUE)
 <br>
 
 <p style = "color:#082C6F; font-size: 20px !important; font-family: Arial;text-indent: 25px">
-Introduction paragraph will be included which will briefly introduce what this project is about. What datasets we used? What machine learning algorithms we utilized. What deep learning algorithm I have used and how I try to improve its performance using hyperparameter tuning. Brief description of study results.</p>
+The dynamic field of Machine Learning has undergone rapid transformation, largely driven by technological advancements and a growing availability of data. The advent of the internet has ushered in an unprecedented flow of big data, while ongoing developments in analysis techniques continue to revolutionize the discipline. These advancements are further bolstered by significant improvements in GPU technology. This transformation has led to an exponential growth of diverse Machine Learning techniques, ranging from traditional regression approaches to cutting-edge deep learning algorithms. Despite this variety, the fundamental purpose of all these methods remains the same, and that is either to enhance our understanding of the world or to improve our ability to predict future with higher accuracy.</p>
+
+<p style = "color:#082C6F; font-size: 20px !important; font-family: Arial;text-indent: 25px">
+As Machine Learning methods continue to proliferate, it becomes increasingly important to grasp their unique functionalities and differences, as well as how to select the most appropriate models for different problems and applications. With this in mind, this project seeks to elucidate the process of selecting optimal ML models by tackling a real-world challenge: predicting housing prices using two renowned datasets, Ames and Boston.</p> 
+
+<p style = "color:#082C6F; font-size: 20px !important; font-family: Arial;text-indent: 25px">
+Although Machine Learning algorithms automate tasks traditionally performed by humans, this process of selecting the best model still requires meticulous data preprocessing and thoughtful analysis design. This project will guide us through this process, presenting a step-by-step approach that establishes foundational principles which are applicable to any other Machine Learning projects.</p>
 
 <br>
 

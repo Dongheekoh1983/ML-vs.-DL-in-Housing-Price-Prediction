@@ -194,8 +194,7 @@ digraph surveillance_diagram {    # 'digraph' means 'directional graph', then th
 ```
 
 ## <span><a id="preprocess" style="color: #7BB6B3; text-transform: uppercase">Data Pre-processing</a></span>
-<br>
-<p style = "color:#082C6F; font-size: 20px">Before developing statistical models, the original dataset needed to be pre-processed by employing the following steps:</p> 
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">Before developing statistical models, the original dataset needed to be pre-processed by employing the following steps:</p> 
 <ol style = "color:#082C6F; font-size:20px">
 <li>Extracting and separating variables from the dataset according to it types(numeric, discrete, categorical, ordinal)</li>
 <li>Re-ordering ordinal variables</li>
@@ -210,7 +209,7 @@ digraph surveillance_diagram {    # 'digraph' means 'directional graph', then th
 
 ### <span><a id="#" style="color: #7BB6B3;">1. Extracting and separating variables from the dataset according to its types(numeric, discrete, categorical, ordinal, and response)</a></span>
 
-<p style = "color:#082C6F; font-size: 20px">After consulting the original documentation, I identified four distinct types of data and segmented dataset accordingly. In addition, I chose the 'Sale_price' variable as the response variable and categorized it separately. The source code below shows illustrate this process.</p> 
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">After consulting the original documentation, I identified four distinct types of data and segmented dataset accordingly. In addition, I chose the 'Sale_price' variable as the response variable and categorized it separately. The source code below shows illustrate this process.</p> 
 
 ```{r,echo=TRUE, eval=TRUE, fig.align='center'}
 #Extracting Numeric Variables

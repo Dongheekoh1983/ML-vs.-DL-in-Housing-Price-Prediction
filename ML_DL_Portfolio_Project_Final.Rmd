@@ -209,7 +209,7 @@ digraph surveillance_diagram {    # 'digraph' means 'directional graph', then th
 
 ### <span><a id="#" style="color: #7BB6B3;">1. Extracting and separating variables from the dataset according to its types(numeric, discrete, categorical, ordinal, and response)</a></span>
 
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">After consulting the original documentation, I identified four distinct types of data and segmented dataset accordingly. In addition, I chose the 'Sale_price' variable as the response variable and categorized it separately. The source code below shows illustrate this process.</p> 
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">After consulting the original documentation, I identified four distinct types of data and segmented dataset accordingly. In addition, I chose the 'Sale_price' variable as the response variable and categorized it separately. The source code below illustrate this process.</p> 
 
 ```{r,echo=TRUE, eval=TRUE, fig.align='center'}
 #Extracting Numeric Variables
@@ -259,6 +259,8 @@ ames_response <- ames %>% dplyr::select(Sale_Price)
 
 
 ### <span><a id="#" style="color: #7BB6B3;">2. Re-ordering ordinal variables </a></span>
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px"> All ordinal variables identified in the dataset inherently contain rank order information. Since these variables were originally in string format, statistical models cannot automatically discern the intended order. Therefore, I meticulously identified the correct order for each variable using the data dictionary and redefined them accordingly. Finally, as demonstrated in the code below, all ordinal variables were converted into integer values, allowing machine learning models to properly interpret the eastablished orders.</p> 
+
 ```{r,echo=TRUE, eval=TRUE, fig.align='center'}
 #Lot_Shape
 Qual.levels <- c('Irregular', 'Moderately_Irregular', 'Slightly_Irregular','Regular')

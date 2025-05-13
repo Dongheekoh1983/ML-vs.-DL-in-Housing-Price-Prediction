@@ -4,7 +4,7 @@ output:
   html_document:
     theme: journal
     df_print: paged
-    code_folding: show
+    code_folding: hide
   pdf_document: default
 ---
 
@@ -67,10 +67,8 @@ Deep Learning, a subset of Machine Learning, is distinguished by its use of mult
   <li><a href="#preprocess" style = "color:#7BB6B3">Data Pre-processing</a></li>
   <li><a href="#eda" style = "color: #7BB6B3">Exploratory Data Analysis</a></li>
   <li><a href="#ml" style = "color: #7BB6B3">Performance Comparison of Machine Learning(ML) Models for Housing Price Prediction</a></li>
-  <li><a href="#dnn" style = "color: #7BB6B3">Deep Neural Network(DNN) for Housing Price Prediction</a></li>
-  <li><a href="#ml_dl" style = "color: #7BB6B3"> Performance Comparison between Machine Learning and Deep Neural Network</a></li>
-  <li><a href="#boston_ml" style = "color: #7BB6B3">Implementing the Same ML Methods on Boston Housing Dataset</a></li>
-  <li><a href="#boston_dnn" style = "color: #7BB6B3">Implementing the Same DNN Method on Boston Housing Dataset</a></li>
+  <li><a href="#dnn" style = "color: #7BB6B3">Building Deep Neural Network(DNN) & Performance Comparison: ML vs. DNN</a></li>
+  <li><a href="#boston_ml" style = "color: #7BB6B3">Implementing the Same ML & DNN Methods on Boston Housing Dataset</a></li>
   <li><a href="#summary" style = "color: #7BB6B3">Project Summary and Discussion</a></li>
 </ul>
 
@@ -507,7 +505,7 @@ knitr::include_graphics("./image/ames_saleprice.png")
 ```
 
 ### <span><a id="#" style="color: #7BB6B3;">2. Lot Size vs. Sale_price </a></span>
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The histogram below displays the distribution of the Lot_Area variable, which measure the lot sizes of housing properties in square feet. Like the sale price, this variable also exhibits clear right-skewness. The median lot size is 9,436 square feet, with values ranging from a minimum of 1,300 to a maximum of 215,245. Half of the lot sizes fall between 7,440 and 11,555 square feet.</p>
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The histogram below displays the distribution of the Lot_Area variable, which measures the lot sizes of housing properties in square feet. Like the sale price, this variable also exhibits clear right-skewness. The median lot size is 9,436 square feet, with values ranging from a minimum of 1,300 to a maximum of 215,245. Half of the lot sizes fall between 7,440 and 11,555 square feet.</p>
 
 <p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The accompanying scatter plot on the right illustrates a noticeable relationship between Lot_Area and Sale_Price. Specifically, for lot sizes under 15,000 square feet, there appears to be a positive correlation between the two variables. However, beyond this threshold, the trend reverses, and the variance in sale prices increases significantly. This widening spread suggest greater uncertainly and possible outliers in larger lot sizes.</p>
 
@@ -530,7 +528,13 @@ knitr::include_graphics("./image/ames_price_lotsize_scatter.png")
 ```
 
 ### <span><a id="#" style="color: #7BB6B3;">3. Gr_Liv_Area vs. Sale_price </a></span>
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px"> </p>
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The variable Gr_Liv_Area represents the above-ground living area of properties, measured in square feet. Like the previous two variables, it also exhibits a right-skewed distribution. Half of the properties have living areas between 1,126 and 1,743 square feet, with a median of 1,442. The full range spans from a minimum of 334 to a maximum of 5,642 square feet, though houses exceeding 3,000 square feet are relatively rare.</p>
+
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px"> The scatter plot below reveals a clear positive correlation between above-ground living area and sale price - generally, larger homes tend to have higher prices. However, there are exceptions. Notably, three houses with the largest living areas are priced significantly below the trend, dragging the regression line downward and increasing the standard error. These outliers warrant further investigation. If they are found to be errors or non-representative cases, removing them from statistical modeling may help improve models' prediction accuracy.</p>
+
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The corresponding map highlights a concentration of homes with larger above-ground living areas in the northern section of the study area. Another prominent cluster appears just south of the campus area. 
+Aside from this exception, suburban neighborhoods generally feature larger homes compared to areas near the university.</p>
+
 ```{r, echo=TRUE, eval=FALSE, fig.align='center'}
 
 #scatter plot between Gr_Liv_Area and Sale_Price
@@ -564,7 +568,10 @@ knitr::include_graphics("./image/ames_price_liv_area_figure.png")
 ```
 
 ### <span><a id="#" style="color: #7BB6B3;">4. Year_Built vs. Sale_price </a></span>
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px"> </p>
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The histogram below suggests that housing construction in the area has been uneven, with three major construction booms: the first occurring prior to 1940, the second between 1940 and 1980, and the third after 1980. The scatter plot of Sale_Price versus Year_Built reveals an interesting trend. Specifically, while there appears to be little to no correlation between the two variables before 1940, a clear positive correlation emerges thereafter. Although there are several houses across all periods with above-average sale prices, these do not seem to be a major concern from a modeling standpoint. Therefore, I will include the Year_built variable without additional pre-processing.</p>
+
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The map on the right shows that development initially concentrated around the campus area and gradually expanded outward toward the suburbs. As indicated by the dark blue dots representing the most recently built houses, newer properties are primarily located along the outer edges of the study area.</p>
+
 ```{r, echo=TRUE, eval=FALSE}
 #histogram for Year_Built 
 hist_year_built  <- ggplot(ames, aes(x=Year_Built)) + geom_histogram(bins=45, col="white")
@@ -591,9 +598,13 @@ map_year_built <-
 knitr::include_graphics("./image/ames_price_yearbuilt_eda.png")
 ```
 
-### <span><a id="#" style="color: #7BB6B3;">5. Overall_Quality vs. Sale_price </a></span>
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px"> </p>
+### <span><a id="#" style="color: #7BB6B3;">5. Overall_Quality & External Condition vs. Sale_price </a></span>
+
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The final two variables I examined were Overall_Quality and External_Condition. Upon closer inspection, both variables appear to capture similar aspects of the housing data. In general, property prices increase as the quality and external condition of the homes improve. The boxplot below clearly shows that houses rated as Excellent or Very_Excellent have significantly higher sale prices. Geographically, as with previous variables, homes with higher overall quality and better external conditions are primarily located on the outer edges of the study area.</p>
+
+
 ```{r, echo=TRUE, eval=FALSE}
+#overall quality vs. sale price
 boxplot_condition_price <- ggplot(ames, aes(x=Overall_Qual, y=Sale_Price)) + geom_boxplot(aes(colour=Overall_Qual), show.legend = FALSE) 
 
 map_condition <- 
@@ -603,16 +614,8 @@ background +
   
 
 boxplot_condition_price + map_condition + plot_layout(ncol=2)
-```
 
-
-```{r, echo=FALSE, out.width="100%", fig.align='center'}
-knitr::include_graphics("./image/ames_price_condition_figure.png")
-```
-
-### <span><a id="#" style="color: #7BB6B3;">6. External Condition vs. Sale_price </a></span>
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px"> </p>
-```{r, echo=TRUE, eval=FALSE}
+#overall quality vs. sale price
 boxplot_external_qual_price <- 
   ggplot(ames, aes(x=Exter_Qual, y=Sale_Price)) + 
   geom_boxplot(aes(colour=Exter_Qual), show.legend = FALSE)
@@ -624,16 +627,33 @@ map_external_qual <-
   guides(color = guide_legend(title = NULL))
 
 boxplot_external_qual_price + map_external_qual + plot_layout(ncol=2)
-
 ```
 
+
+```{r, echo=FALSE, out.width="100%", fig.align='center'}
+knitr::include_graphics("./image/ames_price_condition_figure.png")
+```
 
 ```{r, echo=FALSE, out.width="100%", fig.align='center'}
 knitr::include_graphics("./image/ames_price_ext_quality_figure.png")
 ```
 
 ## <span><a id="ml" style="color: #7BB6B3; text-transform: uppercase">Performance Comparison of Machine Learning(ML) Models for Housing Price Prediction</a></span>
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">Explanation about Performance Comparison of Machine Learning(ML) Models for Housing Price Prediction</p> 
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">In this section, I compare and evaluate the performance of eight different machine learning (ML) models for predicting housing sale prices using the Ames Housing Dataset. The models selected for comparison are: </p>
+
+<ol style = "color:#082C6F; font-size:20px">
+<li>Linear regression (baseline model)</li>
+<li>Lasso regression</li>
+<li>Ridge regression</li>
+<li>Elastic Net</li>
+<li>Principal Component Regression (PCR)</li>
+<li>Partial Least Square Regression (PLSR)</li>
+<li>Random Forest</li>
+<li>Bagging</li>
+</ol>
+
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">To ensure robust model selection, the code runs a loop of 15 iterations, each time randomly splitting the dataset into 70% training and 30% testing sets. Model performance is evaluated using Mean Absolute Error (MAE). After all 15 iterations, the MAE scores for both training and testing sets are compiled and visualized using boxplots. These visualizations provide an intuitive comparison of model performance and highlight potential overfitting tendencies.</p> 
+
 ```{r,echo=TRUE, eval=FALSE ,fig.align='center'}
 n = nrow(ames)
 rep = 15
@@ -758,8 +778,54 @@ ggplot(data=mse.train.combined, aes(x=index, y=mse.train.combined)) + geom_boxpl
 knitr::include_graphics("./image/ML_Models_Training_Testing_Performance.png")
 ```
 
-## <span><a id="dnn" style="color: #7BB6B3; text-transform: uppercase">Deep Neural Network(DNN) for Housing Price Prediction</a></span>
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">Explanation about Deep Neural Network(DNN) for Housing Price Prediction</p> 
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The results indicate that the Bagging model achieved the lowest test MAE (15,782) and exhibited the smallest gap between training and testing MAE, suggesting it has the strongest generalization ability among all models evaluated. Aside from the Random Forest model, Bagging consistently outperformed the other machine learning models in the study.</p>
+
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">In contrast, the multiple regression model that used all available variables recorded the lowest training MAE but also showed the largest discrepancy between training and testing MAE- about 4,200 - highlighting a significant overfitting issue. Regularization techniques such as Lasso, Elastic Net, and Ridge regression are commonly employed to mitigate overfitting. While these approaches led to slight improvements in performance, the gains were relatively modest. Overall, Principal Component Regression (PCR) and Partial Least Square Regression (PLSR) under-performed compared to other models and were clearly less effective in this context.</p>
+
+## <span><a id="dnn" style="color: #7BB6B3; text-transform: uppercase">Building Deep Neural Network(DNN) & Performance Comparison: ML vs. DNN </a></span>
+
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">In this section, I develop a Deep Neural Network (DNN) model to compare its performance against the eight machine learning models evaluated in the previous section. Below is a summary of the steps I
+have taken to build the best-performing DNN model for the Ames Housing dataset.</p>
+
+### <span><a id="#" style="color: #7BB6B3;">1. Initial Model Architecture</a></span>
+<p style = "color:#082C6F; font-size: 20px">I began with a DNN model consisting of two hidden layers, each with 64 units and ReLU activation functions. The output layer contains a single unit, as this is a regression task.</p>
+
+### <span><a id="#" style="color: #7BB6B3;">2. Model Compilation</a></span>
+<p style = "color:#082C6F; font-size: 20px">The model was compiled using the 'rmsprop' optimizer. Mean Squared Error (MSE) was used as the loss function, and Mean Absolute Error (MAE) was used as the evaluation metric.</p>
+
+### <span><a id="#" style="color: #7BB6B3;">3. Hyperparameter Tuning</a></span>
+<p style = "color:#082C6F; font-size: 20px">Several strategies were explored to optimize the model's performance:</p>
+  <ul style = "font-size: 20px">  
+    <li>Introducing dropout layers to reduce overfitting by randomly deactivating neurons during training</li>
+    <li>Increasing the number of units per layer to better capture complex nonlinear pattern in the datset</li>
+    <li>Using grid search via 'tfruns::tuning_run()' to systematically explore hyperparameter combinations</li>
+    <li>Evaluating model performance based on validation MAE and MSE</li>
+  </ul>
+
+### <span><a id="#" style="color: #7BB6B3;">4. Final Model Configuration</a></span>
+<p style = "color:#082C6F; font-size: 20px">After extensive tuning and experimentation, the optimal model architecture was determined to be</p>
+  <ul style = "font-size: 20px">  
+    <li>First Hidden Layer: Dense (128 units) + ReLU + L2 Regularization + Dropout (rate = 0.4) </li>
+    <li>Second Hidden Layer: Dense (128 units) + ReLU + L2 Regularization + Dropout (rate = 0.2)</li>
+    <li>Output Layer: Dense (1 unit)</li>
+    <li>Optimizer:  Adam</li>
+  </ul>
+
+### <span><a id="#" style="color: #7BB6B3;">5. Model Evaluation with Cross-Validation</a></span>
+<p style = "color:#082C6F; font-size: 20px">A 5-fold cross-validation was conducted to assess training stability and validation performance.</p>
+
+### <span><a id="#" style="color: #7BB6B3;">6. Training and Epoch Selection</a></span>
+<p style = "color:#082C6F; font-size: 20px">The model was trained for up to 2000 epoch, and the average MAE per epoch was plotted. As the plot indicated, the lowest MAE occured around epoch 950.</p>
+
+### <span><a id="#" style="color: #7BB6B3;">7. Final Training and Testing</a></span>
+<p style = "color:#082C6F; font-size: 20px">The final model was retrained on the full training dataset using the optimal epoch count (950), and then evaluated on the test set.</p>
+
+### <span><a id="#" style="color: #7BB6B3;">8. Stability Testing</a></span>
+<p style = "color:#082C6F; font-size: 20px">The entire test evaluation process was repeated 15 times to assess model stability and consistency.</p> 
+
+### <span><a id="#" style="color: #7BB6B3;">9. ML vs. DNN Performance Comparison </a></span>
+<p style = "color:#082C6F; font-size: 20px">The test MAE across 15 iterations ranged between 14,870 and 15,219, demonstrating strong and stable predictive performance of final DNN model. The boxplot below provides a visual comparison of all models and clearly highlights that the DNN model outperforms all other competing ML models, including the Bagging model, by a notable margin. Overall, the Deep Neural Network excels due to its sophisticated  architecture, which enables it to: 1) capture more complex non-linear relationships among features, 2) effectively handle high-dimensional categorical variable, and 3) automatically learn meaningful patterns without extensive manual feature engineering.</p> 
+
 ```{r,echo=TRUE, eval=FALSE ,fig.align='center'}
 ## Initial Deep Learning Model
 ## Initial model looks like the following 
@@ -962,267 +1028,15 @@ ames_dn_test_results <- c(15005.39, 14925.67, 14870.62,
 knitr::include_graphics("./image/DL_average_mae_history.png")
 ```
 
-## <span><a id="ml_dl" style="color: #7BB6B3; text-transform: uppercase">Performance Comparison between Machine Learning and Deep Neural Network</a></span>
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">Explanation about Performance Comparison between Machine Learning and Deep Neural Network </p> 
-```{r,echo=TRUE, eval=FALSE ,fig.align='center'}
-# ensemble of DN and RF? ###
-mse.test.rf
-ames_dn_test_results
-
-mse.ensemble <- 0.8*ames_dn_test_results + 0.2*mse.test.rf
-
-### After Deep Learning Include the following for the final model comparison
-mse.test.combined <- c(mse.test.model3, mse.test.lasso, mse.test.ridge, 
-                       mse.test.enet, mse.test.pcr, mse.test.plsr, 
-                       mse.test.rf,ames_dn_test_results, mse.ensemble) #mse.test.bag,
-
-index <- rep(c("test.model3", "test.lasso", "test.ridge", 
-               "test.enet", "test.pcr", "test.plsr",   #"test.bag",
-               "test.rf","test.DN", "test.ensemble"), 
-                each=15)
-
-mse.test.combined <- cbind(mse.test.combined, index)
-mse.test.combined <- as.data.frame(mse.test.combined)
-mse.test.combined$mse.test.combined <- as.numeric(mse.test.combined$mse.test.combined) 
-
-ggplot(data=mse.test.combined, aes(x=index, y=mse.test.combined)) + geom_boxplot()
-```
-
 ```{r, echo=FALSE, out.width="70%", fig.align='center'}
 knitr::include_graphics("./image/ML_DL_Ensemble_Performance_Comparison.png")
 ```
 
-## <span><a id="boston_ml" style="color: #7BB6B3; text-transform: uppercase">Implementing the Same ML Methods on Boston Housing Dataset</a></span>
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">Explanation about Implementing the Same Methods on Boston Housing Dataset</p> 
-```{r,echo=TRUE, eval=FALSE ,fig.align='center'}
-boston <- Boston
-str(Boston)
-dim(boston)
-n = nrow(boston)
-rep = 20
-
-
-mse.train.model1 = mse.train.model2 = mse.train.model3 = 
-  mse.train.lasso = mse.train.ridge = mse.train.enet = rep(0,20) #creating empty vector to save training error for each model
-
-mse.test.model1 = mse.test.model2 = mse.test.model3 = 
-  mse.test.lasso = mse.test.ridge = mse.test.enet = rep(0,20) #creating empty vector to save training error for each model
-
-#loop
-set.seed(1234)
-
-for(i in 1:rep){
-  cat("Processing Loop #", i, "\n\n")
-  train_index = sample(1:n, n*0.7, replace = FALSE)
-  boston_train = boston[train_index, ]
-  boston_test = boston[-train_index, ]
-  X_train = model.matrix(medv ~ ., boston_train)[,-1]
-  Y_train = boston_train$medv
-  X_test = model.matrix(medv ~., boston_test)[,-1]
-  Y_test = boston_test$medv
-  
-  #model1
-  model1 = lm(medv ~ rm, data = boston_train)
-  pred.train.model1 = predict(model1)
-  pred.test.model1 = predict(model1, newdata=boston_test[,!names(boston_test)%in%c("medv")])
-  mse.train.model1[i] = MAE(pred.train.model1, boston_train$medv) 
-  #sqrt(sum((boston_train$medv - pred.train.model1)^2)/length(boston_train$medv))
-  mse.test.model1[i] = MAE(pred.test.model1, boston_test$medv)
-  #sqrt(sum((boston_test$medv - pred.test.model1)^2)/length(boston_test$medv))
-  
-  #model2
-  model2 = lm(medv ~ rm + tax + ptratio + black + chas, data = boston_train)
-  pred.train.model2 = predict(model2)
-  pred.test.model2 = predict(model2, newdata=boston_test[,!names(boston_test)%in%c("medv")])
-  mse.train.model2[i] = MAE(pred.train.model2, boston_train$medv)
-  #sqrt(sum((boston_train$medv - pred.train.model2)^2)/length(boston_train$medv))
-  mse.test.model2[i] = MAE(pred.test.model2, boston_test$medv)
-  #sqrt(sum((boston_test$medv - pred.test.model2)^2)/length(boston_test$medv))
-  
-  #model3
-  model3 <- glmnet(x=X_train, y=Y_train, lambda = 0, alpha=0)
-  pred.train.model3 <- predict(model3, X_train)
-  pred.test.model3 <- predict(model3, X_test) 
-  mse.train.model3[i] <- MAE(pred.train.model3, boston_train$medv)
-  mse.test.model3[i] <- MAE(pred.test.model3, boston_test$medv)
-  
-  #lasso
-  cvfitl = cv.glmnet(x=X_train,y=Y_train,family="gaussian",alpha=1,standardize=TRUE)
-  pred.train.l = predict(cvfitl, newx = X_train, s = "lambda.min") 
-  pred.test.l = predict(cvfitl, newx = X_test, s = "lambda.min") 
-  mse.train.lasso[i] = MAE(pred.train.l, Y_train)
-  mse.test.lasso[i] = MAE(pred.test.l, Y_test)
-  
-  #ridge
-  cvfitr = cv.glmnet(x=X_train,y=Y_train,family="gaussian",alpha=0,standardize=TRUE)
-  pred.train.r = predict(cvfitr, newx = X_train, s = "lambda.min") 
-  pred.test.r = predict(cvfitr, newx = X_test, s = "lambda.min") 
-  mse.train.ridge[i] = MAE(pred.train.r, Y_train)
-  mse.test.ridge[i] = MAE(pred.test.r, Y_test)
-  
-  #ENET
-  cvfiten = cv.glmnet(x=X_train,y=Y_train,family="gaussian",alpha=0.5,standardize=TRUE)
-  pred.train.en = predict(cvfiten, newx = X_train, s = "lambda.min") 
-  pred.test.en = predict(cvfiten, newx = X_test, s = "lambda.min") 
-  mse.train.enet[i] = MAE(pred.train.en, Y_train)
-  mse.test.enet[i] = MAE(pred.test.en, Y_test)
-  
-}
-
-### Boxplot for mse test
-mse.test.combined <- c(mse.test.model1, mse.test.model2, mse.test.model3, mse.test.lasso, mse.test.ridge, mse.test.enet)
-index <- rep(c("test.model1", "test.model2", "test.model3", "test.lasso", "test.ridge", "test.enet"), each=20)
-mse.test.combined <- cbind(mse.test.combined, index)
-mse.test.combined <- as.data.frame(mse.test.combined)
-mse.test.combined$mse.test.combined <- as.numeric(mse.test.combined$mse.test.combined) 
-
-ggplot(data=mse.test.combined, aes(x=index, y=mse.test.combined)) + geom_boxplot()
-
-### Boxplot for mse training
-mse.train.combined <- c(mse.train.model1, mse.train.model2, mse.train.model3, mse.train.lasso, mse.train.ridge, mse.train.enet)
-index <- rep(c("train.model1", "train.model2", "train.model3", "train.lasso", "train.ridge", "train.enet"), each=20)
-mse.train.combined <- cbind(mse.train.combined, index)
-mse.train.combined <- as.data.frame(mse.train.combined)
-mse.train.combined$mse.train.combined <- as.numeric(mse.train.combined$mse.train.combined) 
-
-ggplot(data=mse.train.combined, aes(x=index, y=mse.train.combined)) + geom_boxplot()
-
-```
-
-```{r, echo=FALSE, out.width="85%", fig.align='center'}
-knitr::include_graphics("./image/Boston_ML_Performance_Comparison.png")
-```
-
-## <span><a id="boston_dnn" style="color: #7BB6B3; text-transform: uppercase">Implementing the Same DNN Method on Boston Housing Dataset</a></span>
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">Explanation about Deep Neural Network  </p> 
-
-```{r,echo=TRUE, eval=FALSE ,fig.align='center'}
-#Deep Learning...with Boston data first ->, then move on to using AMES dataset. This may more complicated process
-#because AMES dataset contains a lot of categorical variable. I need to make sure how I should preprocess all those variables. 
-boston <- Boston
-names(boston)
-predictors <- as.matrix(boston[,as.numeric(1:13)])
-targets <- as.matrix(boston[ ,14])
-n <- nrow(boston)
-set.seed(1234)
-
-train_index <- sample(1:n, 404, replace=FALSE)
-train_data <- predictors[train_index,]
-train_targets <- targets[train_index]
-test_data <- predictors[-train_index,] 
-test_targets <- targets[-train_index]
-
-mean <- apply(train_data, 2, mean)
-sd <- apply(train_data, 2, sd)
-train_data <- scale(train_data, center = mean, scale = sd)
-test_data <- scale(test_data, center =mean, scale = sd)
-
-
-build_model <- function(){ #because we need to instantiate the same model multiple times, we use function to construct it.
-  model <- keras_model_sequential() %>%
-    layer_dense(64, activation = "relu") %>%
-    #layer_dropout(rate = 0.2) %>%
-    #layer_batch_normalization() %>%
-    layer_dense(64, activation = "relu") %>%
-    #layer_dropout(rate = 0.2) %>%
-    #layer_batch_normalization() %>%
-    layer_dense(1)
-  
-  #, kernel_regularizer = regularizer_l2(0.001)
-  model %>% compile(optimizer = "rmsprop",
-                    loss = "mse",
-                    metrics = "mae")
-  
-  model
-  
-}
-
-
-#Let's try training the model a bit longer: 500 epochs
-#k-fold validation
-k <- 4
-fold_id <- sample(rep(1:k, length.out = nrow(train_data)))
-num_epochs <- 500
-all_mae_histories <- list()
-
-for(i in 1:k) {
-  cat("Processing fold #", i, "\n")
-  val_indices <- which(fold_id == i)
-  val_data <- train_data[val_indices, ] #prepare the validation data 
-  val_targets <- train_targets[val_indices]
-  partial_train_data <- train_data[-val_indices,]
-  partial_train_targets <- train_targets[-val_indices]
-  
-  model <- build_model()
-  
-  history <- model %>% fit(
-    partial_train_data,
-    partial_train_targets,
-    validation_data = list(val_data, val_targets),
-    epochs = num_epochs,
-    batch_size = 16,
-    verbose = 0
-  )
-  
-  mae_history <- history$metrics$val_mae
-  all_mae_histories[[i]] <- mae_history
-}
-
-all_mae_histories <- do.call(cbind, all_mae_histories)
-plot(history)
-average_mae_history <- rowMeans(all_mae_histories) #calculating average per epoch
-plot(average_mae_history, xlab="epoch",  type = 'l')
-
-truncated_mae_history <- average_mae_history[-(1:20)]
-
-plot(average_mae_history, xlab="epoch",  type = 'l',
-     ylim = range(truncated_mae_history))
-```
+## <span><a id="boston_ml" style="color: #7BB6B3; text-transform: uppercase">Implementing the Same ML & DNN Methods on Boston Housing Dataset</a></span>
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">to keep it simple, the code was removed because of similarity.</p> 
 
 ```{r, echo=FALSE, out.width="50%", fig.align='center'}
 knitr::include_graphics("./image/Boston_DL_average_mae_history.png")
-```
-
-```{r,echo=TRUE, eval=FALSE ,fig.align='center'}
-min = which.min(average_mae_history)
-#training the final model
-model <- build_model() 
-
-history <- model %>% fit(train_data, train_targets, #train it on the entirety of the data
-                         epochs = min, batch_size = 16)
-
-result <- model %>% evaluate(test_data, test_targets)
-result["mae"]
-
-DN.test.mae <- rep(0,20)
-
-
-for(i in 1:20){
-  cat("Loop #", i, "\n")
-  model <- build_model() 
-  model %>% fit(train_data, train_targets, #train it on the entirety of the data
-                epochs = min*1.2, batch_size = 16, verbose = 0)
-  
-  result <- model %>% evaluate(test_data, test_targets)
-  
-  DN.test.mae[i] <- result["mae"]
-  
-}
-
-
-DN.test.mae
-mean(DN.test.mae)
-### Boxplot for mse test
-mse.test.combined <- c(mse.test.model1, mse.test.model2, mse.test.model3, 
-                       mse.test.lasso, mse.test.ridge, mse.test.enet, DN.test.mae)
-
-index <- rep(c("test.model1", "test.model2", "test.model3", "test.lasso", "test.ridge", "test.enet", "test.DN"), each=20)
-
-mse.test.combined <- cbind(mse.test.combined, index)
-mse.test.combined <- as.data.frame(mse.test.combined)
-mse.test.combined$mse.test.combined <- as.numeric(mse.test.combined$mse.test.combined) 
-
-ggplot(data=mse.test.combined, aes(x=index, y=mse.test.combined)) + geom_boxplot()
 ```
 
 ```{r, echo=FALSE, out.width="70%", fig.align='center'}
@@ -1232,9 +1046,5 @@ knitr::include_graphics("./image/Boston_ML_DL_Performance_Comparison.png")
 ## <span><a id="summary" style="color: #7BB6B3; text-transform: uppercase">Project Summary and Discussion</a></span>
 <p style = "color:#082C6F; font-size: 20px; text-indent: 25px">Project Summary and Discussion</p>
 <br>
-
-
-#is this update working?
-
 
 

@@ -4,7 +4,7 @@ output:
   html_document:
     theme: journal
     df_print: paged
-    code_folding: hide
+    code_folding: show
   pdf_document: default
 ---
 
@@ -112,7 +112,7 @@ library(DiagrammeR)
 ```
 
 ## <span><a id="data" style="color: #7BB6B3; text-transform: uppercase">Dataset Description</a></span>
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">For this project, I have primarily utilized the Ames Housing Dataset, which was originally compiled from the Ames Assessor’s Office. It contains records of residential property sales in Ames, Iowa from 2006 to 2010. The dataset includes 2,930 observations across 82 variables, which can be categorized into 20 continuous, 14 discrete, 23 ordinal, and 23 categorical variables. These variables cover a wide range of details that potential home buyers might consider, from neighborhood and zoning to specific housing features like external condition, number of bathrooms, heating systems, kitchen quality, etc.</p>
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">For this project, I have primarily utilized the Ames Housing Dataset, which was originally compiled from the Ames Assessor's Office. It contains records of residential property sales in Ames, Iowa from 2006 to 2010. The dataset includes 2,930 observations across 82 variables, which can be categorized into 20 continuous, 14 discrete, 23 ordinal, and 23 categorical variables. These variables cover a wide range of details that potential home buyers might consider, from neighborhood and zoning to specific housing features like external condition, number of bathrooms, heating systems, kitchen quality, etc.</p>
 
 <p style = "color:#082C6F; font-size: 20px;text-indent: 25px">However, not all these variables significantly contribute to predicting housing prices. Therefore, for this dataset, I believe feature engineering is an essential step to be performed for enhancing the predictive power of machine learning models, a process I will detail in the subsequent section. Additionally, I have also utilized the Boston Housing Dataset which is relatively much smaller and simpler than the Ames Housing Dataset. Yet, I believe this contrast makes Boston Housing Dataset an ideal candidate for testing the generalizability of the methodological approaches that I set out to demonstrate in this project. In other words, if this approach works effectively for both datasets, it would suggest that with minimal modifications, the same approach could be  successfully adapted for similar Machine Learning projects.</p>
 
@@ -209,7 +209,7 @@ digraph surveillance_diagram {    # 'digraph' means 'directional graph', then th
 
 ### <span><a id="#" style="color: #7BB6B3;">1. Extracting and separating variables from the dataset according to its types(numeric, discrete, categorical, ordinal, and response)</a></span>
 
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">After consulting the original documentation, I identified four distinct types of data and segmented dataset accordingly. In addition, I chose the 'Sale_price' variable as the response variable and categorized it separately. The source code below illustrate this process.</p> 
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">After reviewing the original documentation, I identified four distinct data types and segmented the dataset accordingly. Additionally, I selected the 'Sale_price' variable as the response variable and categorized it separately. The source code below illustrate this process.</p> 
 
 ```{r,echo=TRUE, eval=TRUE, fig.align='center'}
 #Extracting Numeric Variables
@@ -377,10 +377,7 @@ glimpse(ames_ordinal)
 ```
 
 ### <span><a id="#" style="color: #7BB6B3;">3. Pre-processing numeric variables </a></span>
-<ul style = "color:#082C6F; font-size: 20px">  
-    <li>Partitioning numeric variables into training and testing Sets</li>
-    <li>Standardizing based on training data mean and standard deviation</li>
-</ul>
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px"> Following data segmentation, I partitioned the numeric variables into training and testing sets, then standardized them using the mean and standard deviation derived from the training set.</p>
 ```{r,echo=TRUE, eval=TRUE, fig.align='center'}
 ames_numeric <- cbind(ames_ordinal, ames_numeric, ames_discrete)
 
@@ -399,14 +396,14 @@ ames_numeric_train <- scale(ames_numeric_train, center=mean_train, scale=sd_trai
 ames_numeric_test <- scale(ames_numeric_test, center=mean_train, scale=sd_train) #now numeric data are scaled properly
 ```
 
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The table below displays the resulting mean and standard deviation of pre-processed training dataset. As can be seen, all the numeric variables has mean of 0 and standard deviation of 1.</p> 
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The table below displays the resulting mean and standard deviation of the pre-processed training dataset. As can be seen, all the numeric variables has mean of 0 and standard deviation of 1.</p> 
 ```{r,echo=FALSE, eval=TRUE, fig.align='center'}
 options(scipen = 999)
 ames_num_train_df <- as.data.frame(ames_numeric_train)
 ames_num_train_df %>% summarise_all(list(mean = ~ round(mean(., na.rm = TRUE), digits = 2), sd = sd), na.rm = TRUE) 
 ```
 <br>
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The following table shows the mean and standard deviation for "testing" dataset. Unlike the training dataset, the means and standard deviations are not exactly 0 and 1, but fairly close. This, as mentioned above, was done on purpose to ensure no information leak from the training dataset which will be used for DNN training.</p> 
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The table below presents the mean and standard deviation of the testing dataset. Unlike the training dataset, these values are not exactly 0 and 1, but fairly close. This design choice  prevents information leakage from the training set, maintaining the validity of the DNN training process.</p> 
 ```{r,echo=FALSE, eval=TRUE, fig.align='center'}
 ames_num_test_df <- as.data.frame(ames_numeric_test)
 ames_num_test_df %>% summarise_all(list(mean = ~ round(mean(., na.rm = TRUE), digits = 2), sd = sd), na.rm = TRUE)
@@ -414,7 +411,7 @@ ames_num_test_df %>% summarise_all(list(mean = ~ round(mean(., na.rm = TRUE), di
 
 ### <span><a id="#" style="color: #7BB6B3;">4. Pre-processing categorical variables (one-hot encoding) </a></span>
 
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">Machine Learning algorithms cannot use categorical variables directly as input. Instead, all data must be presented in a numerical format that machines can properly understand and process them. One-hot encoding is one of the most commonly used methods to achieve this. The following code demonstrates how I applied this technique to convert all my categorical variables into binary vectors, and the accompanying results below show that all variables have been processed as intended.</p> 
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">Machine Learning algorithms cannot directly process categorical variables. Therefore, all data must be converted into a numerical format that machines can interpret and analyze. One-hot encoding is widely used technique to achieve this transformation. The following code demonstrates how I applied one-hot encoding to convert all categorical variables into binary vectors. The results shown below confirm that the variables have been correctly processed.</p> 
 
 ```{r,echo=TRUE, eval=TRUE, fig.align='center'}
 dummy_formula <- dummyVars(~., data=ames_categorical)
@@ -431,7 +428,7 @@ glimpse(ames_cat_train_df)
 
 ### <span><a id="#" style="color: #7BB6B3;">5. Combining all variables for Deep Neural Network Training </a></span>
 
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">Now that all the variables in the Ames housing dataset has been properly pre-processed. As a final step, I am going to organize the exploratory and response variables into separate training and testing datasets. The results from the 'dim()' function demonstrates that we are using 70% of data as training set, while the remaining 30% is reserved for testing and validation. We are now ready to move on to the more exciting parts of our analysis: Exploratory Data Analysis(EDA) and actual machine learning!</p> 
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">With all variables in the Ames housing dataset properly pre-processed, the final step was to partition the dataset into separate training and testing sets. The results indicate that 70% of the data is used for training, while the remaining 30% is reserved for testing and validation. We are now ready to move on to the more exciting stages of our analysis: Exploratory Data Analysis(EDA) and machine learning!</p> 
 
 ```{r,echo=TRUE, eval=TRUE ,fig.align='center'}
 ames_train_targets <- ames$Sale_Price[train_index] 
@@ -447,9 +444,11 @@ dim(as.data.frame(ames_DN_test))
 
 ## <span><a id="eda" style="color: #7BB6B3; text-transform: uppercase">Exploratory Data Analysis</a></span>
 
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">Explanation about EDA</p> 
-
 ### <span><a id="#" style="color: #7BB6B3;">1. Visually inspecting Ames Neighborhoods </a></span>
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">Upon closer inspection, I discovered that it contains valuable spatial information, including xy coordinates as well as neighborhood labels. To visualize this, I mapped the location of each house on a map, using color-coding based on neighborhood labels. This resulting map reveals several notable patterns. First, there are 29 neighborhoods represented in the study area. While most of them are adjacent to one another, a few neighborhoods in the south and southeast area are relatively isolated. Second, a distinct void is visible at the center of the map. With further investigation, I found that this area corresponds to the Iowa State University Campus.</p>
+
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px"> In real estate studies, location plays a critical role in determining housing prices. Therefore, in the following section, as I perform exploratory data analysis(EDA) on key variables, I will also explore their spatial distribution patterns in order to uncover deeper insights and add meaningful context to the evolving narrative of this dataset.</p>
+
 ```{r,echo=TRUE, eval=FALSE ,fig.align='center'}
 #Brining the shapefile for visualization 
 ames_road <- st_read('../tl_2023_19169_roads', quiet=TRUE, layer="tl_2023_19169_roads")
@@ -480,6 +479,7 @@ knitr::include_graphics("./image/ames_neighborhoods.png")
 
 
 ### <span><a id="#" style="color: #7BB6B3;">2. Examining the Response Variable </a></span>
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The histogram below shows that the response variable - sale price - is right-skewed. The median sale price is \$160,000, with values ranging from a minimum of \$12,789 to a maximum of \$755,000. Half of the sale prices fall between \$129,500 and \$213,500. On the accompanying map, blue and light blue dots represent homes sold for less the \$200,000. These lower-priced houses are primarily located near the campus area. However, an exception to this trend is found in the neighborhoods located at the southeastern edge of the study area. In contrast, orange and red dots on the map indicate homes with significantly above-average sale prices. These higher-priced properties are mostly located in the outer rim areas, with a particularly notable cluster in the northern part of the study area.</p>
 ```{r, echo=TRUE, eval=FALSE, fig.align='center'}
 hist_saleprice <- 
   ggplot(ames, aes(x=Sale_Price)) + geom_histogram(bins=50, col="white") 
@@ -507,6 +507,11 @@ knitr::include_graphics("./image/ames_saleprice.png")
 ```
 
 ### <span><a id="#" style="color: #7BB6B3;">2. Lot Size vs. Sale_price </a></span>
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The histogram below displays the distribution of the Lot_Area variable, which measure the lot sizes of housing properties in square feet. Like the sale price, this variable also exhibits clear right-skewness. The median lot size is 9,436 square feet, with values ranging from a minimum of 1,300 to a maximum of 215,245. Half of the lot sizes fall between 7,440 and 11,555 square feet.</p>
+
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The accompanying scatter plot on the right illustrates a noticeable relationship between Lot_Area and Sale_Price. Specifically, for lot sizes under 15,000 square feet, there appears to be a positive correlation between the two variables. However, beyond this threshold, the trend reverses, and the variance in sale prices increases significantly. This widening spread suggest greater uncertainly and possible outliers in larger lot sizes.</p>
+
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">Given these observations, further investigation into how this variable should be pre-processed could potentially enhance the explanatory power of the statistical models used later in the analysis. However, since model refinement is not the primary focus of this study, I will save that for future research.</p>
 ```{r, echo=TRUE, eval=FALSE, fig.align='center'}
 hist_lot <- ggplot(ames, aes(x=Lot_Area)) + 
   geom_histogram(bins=50, col="white") + 
@@ -525,6 +530,7 @@ knitr::include_graphics("./image/ames_price_lotsize_scatter.png")
 ```
 
 ### <span><a id="#" style="color: #7BB6B3;">3. Gr_Liv_Area vs. Sale_price </a></span>
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px"> </p>
 ```{r, echo=TRUE, eval=FALSE, fig.align='center'}
 
 #scatter plot between Gr_Liv_Area and Sale_Price
@@ -558,6 +564,7 @@ knitr::include_graphics("./image/ames_price_liv_area_figure.png")
 ```
 
 ### <span><a id="#" style="color: #7BB6B3;">4. Year_Built vs. Sale_price </a></span>
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px"> </p>
 ```{r, echo=TRUE, eval=FALSE}
 #histogram for Year_Built 
 hist_year_built  <- ggplot(ames, aes(x=Year_Built)) + geom_histogram(bins=45, col="white")
@@ -585,6 +592,7 @@ knitr::include_graphics("./image/ames_price_yearbuilt_eda.png")
 ```
 
 ### <span><a id="#" style="color: #7BB6B3;">5. Overall_Quality vs. Sale_price </a></span>
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px"> </p>
 ```{r, echo=TRUE, eval=FALSE}
 boxplot_condition_price <- ggplot(ames, aes(x=Overall_Qual, y=Sale_Price)) + geom_boxplot(aes(colour=Overall_Qual), show.legend = FALSE) 
 
@@ -603,6 +611,7 @@ knitr::include_graphics("./image/ames_price_condition_figure.png")
 ```
 
 ### <span><a id="#" style="color: #7BB6B3;">6. External Condition vs. Sale_price </a></span>
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px"> </p>
 ```{r, echo=TRUE, eval=FALSE}
 boxplot_external_qual_price <- 
   ggplot(ames, aes(x=Exter_Qual, y=Sale_Price)) + 

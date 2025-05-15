@@ -764,6 +764,7 @@ mse.train.ridge
 mse.train.enet
 mse.train.pcr
 mse.train.plsr
+mse.train.bag
 mse.test.model1
 mse.test.model2
 mse.test.model3
@@ -777,11 +778,11 @@ mse.test.bag
 ### Boxplot for mse test
 mse.test.combined <- c(mse.test.model3, mse.test.lasso, mse.test.ridge, 
                        mse.test.enet, mse.test.pcr, mse.test.plsr, 
-                       mse.test.rf,mse.test.bag, ames_dn_test_results)
+                       mse.test.rf,mse.test.bag)#, ames_dn_test_results)
 
 index <- rep(c("test.model3", "test.lasso", "test.ridge", 
                "test.enet", "test.pcr", "test.plsr", 
-               "test.rf","test.bag","test.DN"), 
+               "test.rf","test.bag"),#"test.DN"), 
                 each=15)
 
 mse.test.combined <- cbind(mse.test.combined, index)
@@ -1193,10 +1194,12 @@ rep = 20
 
 
 mse.train.model1 = mse.train.model2 = mse.train.model3 = 
-  mse.train.lasso = mse.train.ridge = mse.train.enet = rep(0,20) #creating empty vector to save training error for each model
+  mse.train.lasso = mse.train.ridge = 
+  mse.train.enet = mse.train.rf = mse.train.rf = mse.train.bag = rep(0,20) #creating empty vector to save training error for each model
 
 mse.test.model1 = mse.test.model2 = mse.test.model3 = 
-  mse.test.lasso = mse.test.ridge = mse.test.enet = rep(0,20) #creating empty vector to save training error for each model
+  mse.test.lasso = mse.test.ridge = 
+  mse.test.enet = mse.test.rf = mse.test.bag = rep(0,20) #creating empty vector to save training error for each model
 
 #loop
 set.seed(1234)
@@ -1257,6 +1260,20 @@ for(i in 1:rep){
   mse.train.enet[i] = MAE(pred.train.en, Y_train)
   mse.test.enet[i] = MAE(pred.test.en, Y_test)
   
+  #Random Forest
+  rf <- randomForest(medv~., data=boston_train, mtry=8)
+  rf.predict.train = predict(rf)
+  rf.predict.test =predict(rf, newdata = boston_test[,!names(boston_test)%in%c("medv")])
+  mse.train.rf[i] = MAE(rf.predict.train, boston_train$medv)
+  mse.test.rf[i] = MAE(rf.predict.test, boston_test$medv)
+  
+  #bagging
+  bag <- randomForest(medv~., data=boston_train, mtry=57)
+  bag.predict.train = predict(bag)
+  bag.predict.test =predict(bag, newdata = boston_test[,!names(boston_test)%in%c("medv")])
+  mse.train.bag[i] = MAE(bag.predict.train, boston_train$medv)
+  mse.test.bag[i] = MAE(bag.predict.test, boston_test$medv)
+  
 }
 
 mse.train.model1
@@ -1265,6 +1282,8 @@ mse.train.model3
 mse.train.lasso
 mse.train.ridge
 mse.train.enet
+mse.train.rf
+mse.train.bag
 
 
 mse.test.model1
@@ -1273,10 +1292,13 @@ mse.test.model3
 mse.test.lasso
 mse.test.ridge
 mse.test.enet
+mse.test.rf
+mse.test.bag
 
 ### Boxplot for mse test
-mse.test.combined <- c(mse.test.model1, mse.test.model2, mse.test.model3, mse.test.lasso, mse.test.ridge, mse.test.enet)
-index <- rep(c("test.model1", "test.model2", "test.model3", "test.lasso", "test.ridge", "test.enet"), each=20)
+mse.test.combined <- c(mse.test.model1, mse.test.model2, mse.test.model3, mse.test.lasso, 
+                       mse.test.ridge, mse.test.enet, mse.test.rf, mse.test.bag)
+index <- rep(c("test.model1", "test.model2", "test.model3", "test.lasso", "test.ridge", "test.enet", "test.rf", "test.bag"), each=20)
 mse.test.combined <- cbind(mse.test.combined, index)
 mse.test.combined <- as.data.frame(mse.test.combined)
 mse.test.combined$mse.test.combined <- as.numeric(mse.test.combined$mse.test.combined) 
@@ -1284,8 +1306,10 @@ mse.test.combined$mse.test.combined <- as.numeric(mse.test.combined$mse.test.com
 ggplot(data=mse.test.combined, aes(x=index, y=mse.test.combined)) + geom_boxplot()
 
 ### Boxplot for mse training
-mse.train.combined <- c(mse.train.model1, mse.train.model2, mse.train.model3, mse.train.lasso, mse.train.ridge, mse.train.enet)
-index <- rep(c("train.model1", "train.model2", "train.model3", "train.lasso", "train.ridge", "train.enet"), each=20)
+mse.train.combined <- c(mse.train.model1, mse.train.model2, mse.train.model3, 
+                        mse.train.lasso, mse.train.ridge, mse.train.enet, mse.train.rf, mse.train.bag)
+index <- rep(c("train.model1", "train.model2", "train.model3", 
+               "train.lasso", "train.ridge", "train.enet", "train.rf", "train.bag"), each=20)
 mse.train.combined <- cbind(mse.train.combined, index)
 mse.train.combined <- as.data.frame(mse.train.combined)
 mse.train.combined$mse.train.combined <- as.numeric(mse.train.combined$mse.train.combined) 
@@ -1441,19 +1465,29 @@ for(i in 1:20){
 
 
 DN.test.mae
+#[1] 2.167751 2.443556 1.999656 2.180903 2.449976 2.637667 2.130664 2.655637 2.421679 2.196311 2.091542 2.622768 2.187373 2.169495 2.203477
+#[16] 2.203694 2.131910 2.082899 2.105482 2.266908
+
 mean(DN.test.mae)
 ### Boxplot for mse test
-mse.test.combined <- c(mse.test.model1, mse.test.model2, mse.test.model3, 
-                       mse.test.lasso, mse.test.ridge, mse.test.enet, DN.test.mae)
+mse.test.combined <- c(#mse.test.model1, mse.test.model2, 
+                       mse.test.model3, 
+                       mse.test.lasso, mse.test.ridge, mse.test.enet, mse.test.rf, mse.test.bag ,DN.test.mae)
 
-index <- rep(c("test.model1", "test.model2", "test.model3", "test.lasso", "test.ridge", "test.enet", "test.DN"), each=20)
+index <- rep(c(#"test.model1", "test.model2", 
+               "test.model3", "test.lasso", "test.ridge", "test.enet", "test.rf","test.bag","test.DN"), each=20)
 
 mse.test.combined <- cbind(mse.test.combined, index)
 mse.test.combined <- as.data.frame(mse.test.combined)
 mse.test.combined$mse.test.combined <- as.numeric(mse.test.combined$mse.test.combined) 
 
-ggplot(data=mse.test.combined, aes(x=index, y=mse.test.combined)) + geom_boxplot()
+ml_dl_comparison_testing <-
+  ggplot(data=mse.test.combined, aes(x=index, y=mse.test.combined)) + geom_boxplot() +
+  xlab("Testing MSE") + theme(axis.title.y = element_blank())
 
+ml_dl_comparison_testing
+
+ggsave(filename = "./image/Boston_ML_DL_Comparison_New.png", width=10, height=7, dpi=300)
 
 # resources
 # https://bradleyboehmke.github.io/HOML/linear-regression.html#assessing-model-accuracy

@@ -780,7 +780,7 @@ knitr::include_graphics("./image/ML_Models_Training_Testing_Performance.png")
 
 <p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The results indicate that the Bagging model achieved the lowest test MAE (15,782) and exhibited the smallest gap between training and testing MAE, suggesting it has the strongest generalization ability among all models evaluated. Aside from the Random Forest model, Bagging consistently outperformed the other machine learning models in the study.</p>
 
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">In contrast, the multiple regression model that used all available variables recorded the lowest training MAE but also showed the largest discrepancy between training and testing MAE- about 4,200 - highlighting a significant overfitting issue. Regularization techniques such as Lasso, Elastic Net, and Ridge regression are commonly employed to mitigate overfitting. While these approaches led to slight improvements in performance, the gains were relatively modest. Overall, Principal Component Regression (PCR) and Partial Least Square Regression (PLSR) under-performed compared to other models and were clearly less effective in this context.</p>
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">In contrast, the multiple regression model that used all available variables recorded the lowest training MAE but also showed the largest discrepancy between training and testing MAE- about 4,200 - highlighting a significant overfitting issue. Regularization techniques such as Lasso, Elastic Net, and Ridge regression are commonly employed to mitigate overfitting. While these approaches led to slight improvements in performance, the gains were relatively modest. Overall, Principal Component Regression (PCR) and Partial Least Square Regression (PLSR) underperformed compared to other models and were clearly less effective in this context.</p>
 
 ## <span><a id="dnn" style="color: #7BB6B3; text-transform: uppercase">Building Deep Neural Network(DNN) & Performance Comparison: ML vs. DNN </a></span>
 
@@ -815,10 +815,10 @@ have taken to build the best-performing DNN model for the Ames Housing dataset.<
 <p style = "color:#082C6F; font-size: 20px">A 5-fold cross-validation was conducted to assess training stability and validation performance.</p>
 
 ### <span><a id="#" style="color: #7BB6B3;">6. Training and Epoch Selection</a></span>
-<p style = "color:#082C6F; font-size: 20px">The model was trained for up to 2000 epoch, and the average MAE per epoch was plotted. As the plot indicated, the lowest MAE occured around epoch 950.</p>
+<p style = "color:#082C6F; font-size: 20px">The model was trained for up to 2000 epoch, and the average MAE per epoch was plotted. As the plot indicated, the lowest MAE occurred around epoch 950.</p>
 
 ### <span><a id="#" style="color: #7BB6B3;">7. Final Training and Testing</a></span>
-<p style = "color:#082C6F; font-size: 20px">The final model was retrained on the full training dataset using the optimal epoch count (950), and then evaluated on the test set.</p>
+<p style = "color:#082C6F; font-size: 20px">The final model was retrained on the full training dataset using the optimal epoch count times 1.2 (950*1.2), and then evaluated on the test set.</p>
 
 ### <span><a id="#" style="color: #7BB6B3;">8. Stability Testing</a></span>
 <p style = "color:#082C6F; font-size: 20px">The entire test evaluation process was repeated 15 times to assess model stability and consistency.</p> 
@@ -1040,7 +1040,7 @@ knitr::include_graphics("./image/Boston_DL_average_mae_history.png")
 ```
 
 ```{r, echo=FALSE, out.width="70%", fig.align='center'}
-knitr::include_graphics("./image/Boston_ML_DL_Performance_Comparison.png")
+knitr::include_graphics("./image/Boston_ML_DL_Comparison_New.png")
 ```
 
 ## <span><a id="summary" style="color: #7BB6B3; text-transform: uppercase">Project Summary and Discussion</a></span>

@@ -1033,7 +1033,9 @@ knitr::include_graphics("./image/ML_DL_Ensemble_Performance_Comparison.png")
 ```
 
 ## <span><a id="boston_ml" style="color: #7BB6B3; text-transform: uppercase">Implementing the Same ML & DNN Methods on Boston Housing Dataset</a></span>
-<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">to keep it simple, the code was removed because of similarity.</p> 
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The Boston Housing dataset is much smaller and less comprehensive than the Ames dataset; therefore, I think that the machine learning models introduced above may be sufficient to capture the underlying patterns without the need for more complex approaches like deep neural networks. Nonetheless, I implemented the same machine learning and deep learning algorithms to the Boston housing dataset for demonstration purpose.</p> 
+
+<p style = "color:#082C6F; font-size: 20px;text-indent: 25px">The initial DNN model was trained for 500 epochs, and its average MAE was tracked throughout. As shown in the plot below, optimal performance was reached around 200 epochs. Accordingly, the final model was retrained on the full training dataset using  1.2 times the optimal epoch identified, following the same approach as before. All competing ML models were trained using the same methodological approaches explained above. The boxplot below compares their final performance, clearly showing that Bagging, Random Forest, and DNN model outperform traditional linear regression and regularization-based models. Notably, the DNN model achieved the lowest median MAE but exhibited greater variability compared to Random Forest and Bagging. Among the three, Bagging demonstrated the most stable and consistent results. While further hyperparameter tuning could slightly improve the DNN's performance, significant gains are unlikely due to the dataset's inherent limitations, such as its size and feature count. As mentioned earlier, for relatively small dataset like this, more conventional models like Bagging may be sufficient.</p> 
 
 ```{r, echo=FALSE, out.width="50%", fig.align='center'}
 knitr::include_graphics("./image/Boston_DL_average_mae_history.png")
@@ -1044,7 +1046,18 @@ knitr::include_graphics("./image/Boston_ML_DL_Comparison_New.png")
 ```
 
 ## <span><a id="summary" style="color: #7BB6B3; text-transform: uppercase">Project Summary and Discussion</a></span>
-<p style = "color:#082C6F; font-size: 20px; text-indent: 25px">Project Summary and Discussion</p>
+<p style = "color:#082C6F; font-size: 20px; text-indent: 25px">As mentioned in the introductory paragraph, this project aimed to demonstrate the process of selecting optimal machine learning and DNN models using the Ames and Boston housing datasets. To this end, the first section provided a detailed overview of the data preprocessing steps necessary for effective model selection. This was followed by an xxploratory data analysis, which helped identified potential key predictors of housing prices and highlighted their associated spatial distribution patterns.</p>
+
+<p style = "color:#082C6F; font-size: 20px; text-indent: 25px">The results from machine learning model comparisons showed that more sophisticated ensemble-based methods such as Random Forest and Bagging were more effective in predicting housing prices in the Ames dataset. However, further analysis revealed that even these strong performers were significantly outperformed by the DNN model. This is largely due to DNN's ability to capture complex non-linear relationships and hidden patterns within the data. In contrast, when applied to the smaller and less complex Boston housing dataset, the DNN did not outperform Bagging or Random Forest models. This suggests that for simpler, lower-dimensional datasets, complex models like DNN may be unnecessary and could even lead to inefficiencies.</p> 
+
+<p style = "color:#082C6F; font-size: 20px; text-indent: 25px"> The findings of this study underscore the importance of selecting models thoughtfully based on the nature of the problem, rather than defaulting to more complex or state-of-the-art approaches. Simpler models, such as linear regression or Lasso, can be more effective for smaller datasets, offering both computational efficiency and interpretability. In contrast, more complex models like Deep Neural Networks and Bagging are better suited for high-dimensional or more intricate datasets, particularly when predictive accuracy is the primary objective. This study also highlights the value of basic visualization tools - such as scatter plots and boxplots - and emphasizes the crucial role of GIS techniques in recognizing spatial patterns. Ultimately, I believe these methods should not be used in isolation. Instead they should be integrated holistically to enhance our understanding of complex data and the world around us.</p>
+
+
+
+
+
+
+
 <br>
 
 

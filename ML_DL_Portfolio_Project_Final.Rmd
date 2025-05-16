@@ -1016,12 +1016,6 @@ for(i in 1:15) {
   ames_dn_test_results[i] <- result["mae"] 
 }
 
-#result from baseline model #this looks better than the model below hmm...
-ames_dn_test_results <- c(15005.39, 14925.67, 14870.62, 
-                          14981.25, 14965.23, 14908.94,
-                          15131.90, 14907.56, 15028.89,
-                          15025.54, 14952.75, 14925.85,
-                          14945.20, 15219.53, 15198.08)
 ```
 
 ```{r, echo=FALSE, out.width="50%", fig.align='center'}

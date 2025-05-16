@@ -925,7 +925,6 @@ ames_dn_test_results <-
 mean(ames_dn_test_results)
 
 
-
 # ensemble of DN and RF? ###
 mse.test.rf
 ames_dn_test_results
